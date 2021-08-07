@@ -1,0 +1,1180 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Topic 2.5: Fundamental building blocks of neural networks &mdash; Medical Image Analysis (8DC00) v0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Medical Image Analysis (8DC00)
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Topic 2.5: Fundamental building blocks of neural networks</a><ul>
+<li><a class="reference internal" href="#1.-Learning-process-of-a-neural-network">1. Learning process of a neural network</a></li>
+<li><a class="reference internal" href="#2.-Backpropagation">2. Backpropagation</a><ul>
+<li><a class="reference internal" href="#Simple-neural-network">Simple neural network</a></li>
+<li><a class="reference internal" href="#Training-set">Training set</a></li>
+<li><a class="reference internal" href="#Model-initialization">Model initialization</a></li>
+<li><a class="reference internal" href="#Training-&amp;-loss-function">Training &amp; loss function</a></li>
+<li><a class="reference internal" href="#Exercise-2.1:"><em>Exercise 2.1</em>:</a></li>
+<li><a class="reference internal" href="#Exercise-2.2:"><em>Exercise 2.2</em>:</a></li>
+<li><a class="reference internal" href="#Question-2.1:"><em>Question 2.1</em>:</a></li>
+<li><a class="reference internal" href="#Question-2.2:"><em>Question 2.2</em>:</a></li>
+<li><a class="reference internal" href="#Following-model-training">Following model training</a></li>
+<li><a class="reference internal" href="#Exercise-2.3:"><em>Exercise 2.3</em>:</a></li>
+<li><a class="reference internal" href="#Question-2.3:"><em>Question 2.3</em>:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#3.-Neural-network-implementation">3. Neural network implementation</a><ul>
+<li><a class="reference internal" href="#Project-computer-aided-diagnosis-(CAD)">Project computer-aided diagnosis (CAD)</a></li>
+<li><a class="reference internal" href="#Data-loading-&amp;-preprocessing">Data loading &amp; preprocessing</a></li>
+<li><a class="reference internal" href="#Exercise-3.1:"><em>Exercise 3.1</em>:</a></li>
+<li><a class="reference internal" href="#Define-initialization-values">Define initialization values</a></li>
+<li><a class="reference internal" href="#Exercise-3.2:"><em>Exercise 3.2</em>:</a></li>
+<li><a class="reference internal" href="#Model-functions">Model functions</a><ul>
+<li><a class="reference internal" href="#Activation-function">Activation function</a></li>
+<li><a class="reference internal" href="#Loss-function">Loss function</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Forward-and-backward-pass">Forward and backward pass</a></li>
+<li><a class="reference internal" href="#Exercise-3.3:"><em>Exercise 3.3</em>:</a></li>
+<li><a class="reference internal" href="#Model-training-&amp;-validation">Model training &amp; validation</a></li>
+<li><a class="reference internal" href="#Exercise-3.4:"><em>Exercise 3.4</em>:</a></li>
+<li><a class="reference internal" href="#Question-3.2:"><em>Question 3.2</em>:</a></li>
+<li><a class="reference internal" href="#Final-model-performance">Final model performance</a></li>
+<li><a class="reference internal" href="#Question-3.3:"><em>Question 3.3</em>:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Medical Image Analysis (8DC00)</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Topic 2.5: Fundamental building blocks of neural networks</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/reader/reader/2.5_CNNs_fundamental_building_blocks.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<section id="Topic-2.5:-Fundamental-building-blocks-of-neural-networks">
+<h1>Topic 2.5: Fundamental building blocks of neural networks<a class="headerlink" href="#Topic-2.5:-Fundamental-building-blocks-of-neural-networks" title="Permalink to this headline">¶</a></h1>
+<p>This notebook combines theory with exercises to support the understanding of fundamental building blocks of neural networks. This time, you will be asked to implement your functions directly in this notebook (there are no dedicated Python files besides helper functions). Use available markdown sections to fill in your answers to questions as you proceed through the notebook.</p>
+<p><strong>Contents:</strong></p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="#learning">Learning process of a neural network</a></p></li>
+<li><p><a class="reference external" href="#backpropagation">Backpropagation</a> - Simplest back propagation example and exercise (with pen and paper)</p></li>
+<li><p><a class="reference external" href="#implementation">Implementation of a neural network</a> (with python)</p></li>
+</ol>
+<p>Nowadays most automated medical image analysis tasks are carried out using deep neural networks. These large networks are often seen as black box models, even though the outputs of the networks can ‘directly’ be calculated form the inputs. With the simple examples given in this notebook we aim for you to understand how neural networks learn. After you completed the exercises of this notebook you are able to: * explain the fundamental principles behind the learning process of a neural network.
+* manually train a simple neural network by doing backpropagation. * implement a small neural network in python which can be used for the CAD project work.</p>
+<p><p><img alt="34b8ec5562e74bd58448f940cec15ca9" class="no-scaled-link" src="../../_images/read_ico.png" style="width: 42px; height: 42px;" /></p>
+</p><section id="1.-Learning-process-of-a-neural-network">
+<h2>1. Learning process of a neural network<a class="headerlink" href="#1.-Learning-process-of-a-neural-network" title="Permalink to this headline">¶</a></h2>
+<p>Let’s take a step back to understand how a neural network can learn. As humans we are capable to learn many tasks throughout our lives. We can for example easily distinguish cats from dogs in a picture, but we were not able to do this as newborns and we had to learn this along the way. In our upbringing, constant feedback is given by parents and teachers to make sure that we can recognize different common animals or objects. So after a while you simply know what animal you are seeing by taking a
+quick look at the animal. However, we find it more difficult to recognize rare animals, the reason for this is that we did not see many examples of these rare animals.</p>
+<p>This principle is exactly the same for a neural network. During the training process, known data is fed into the neural network, and the network makes a prediction about what the data represents. Any error in the prediction is used as feedback. As the training process continues, the network weights are adjusted (using backpropagation) until the network is making accurate predictions. Then the model is ready and can be used to make predictions for unseen images in the inference stage. This
+process is visualized in the figure below. As you can see, the model is only trained on three classes of images (triangles, stars and circles), therefore it will never be able to classify other shapes. However, the model is able to classify a green star as a star even though this exact color star is not seen during training, but simply because the training data consists of a large variety of colors.</p>
+<p><a href="#id1"><span class="problematic" id="id2">|69e87cb3fd2d4d7a83853f165284c155|</span></a></p>
+<p><p><img alt="89894c18c6fc48e59c6c182aa4cf11e1" class="no-scaled-link" src="../../_images/read_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="2.-Backpropagation">
+<h2>2. Backpropagation<a class="headerlink" href="#2.-Backpropagation" title="Permalink to this headline">¶</a></h2>
+<p>Now that you understand the idea of how a neural network can learn, let’s have a look at the calculus behind the learning process. As mentioned before, you want to minimize the loss function, which is done by updating network weights in the backward pass. Backpropagation is carried out by taking small steps in the descending direction of the slope in the loss function. In this notebook we will walk through the absolute simplest backpropagation example to understand what is really happening in
+the backward pass.</p>
+<p>The following videos and book are suggested for a more in-depth explanation of backpropagation: 1. <a class="reference external" href="https://www.youtube.com/watch?v=Ilg3gGewQ5U&amp;ab_channel=3Blue1Brown">Video 1: What is backpropagation really doing?</a> 2. <a class="reference external" href="https://www.youtube.com/watch?v=tIeHLnjs5U8&amp;ab_channel=3Blue1Brown">Video 2: Backpropagation calculus</a> 3. <a class="reference external" href="https://www.deeplearningbook.org/contents/mlp.html">deeplearningbook.org - chapter 6</a></p>
+<section id="Simple-neural-network">
+<h3>Simple neural network<a class="headerlink" href="#Simple-neural-network" title="Permalink to this headline">¶</a></h3>
+<p>The neural network that will be used for this backpropagation example is as follows:</p>
+<p><a href="#id3"><span class="problematic" id="id4">|eedf331680c34e28ac21c8e108ea4cfd|</span></a></p>
+<p>This network is used to predict a value of <span class="math notranslate nohighlight">\(\hat{y}\)</span>, given the input <span class="math notranslate nohighlight">\(x\)</span>, where both <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are scalars. This network contains only one fully connected layer (without a bias), therefore the output can be calculated as <span class="math notranslate nohighlight">\(\hat{y}=w\cdot x\)</span>, where <span class="math notranslate nohighlight">\(w\)</span> is the network weight. Keep in mind that normally a neural network has millions of weights, but just for the sake of manually carrying out backpropagation, we use a neural network of one single weight.</p>
+</section>
+<section id="Training-set">
+<h3>Training set<a class="headerlink" href="#Training-set" title="Permalink to this headline">¶</a></h3>
+<p>The model needs to be trained to obtain the optimal value for the weight <span class="math notranslate nohighlight">\(w\)</span>. Normally a large training set is used to find the optimal values for all the weights, but for simplification purposes, our training set consists of a single input-output pair, which is as follows:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Input (<span class="math notranslate nohighlight">\(x\)</span>)</p></th>
+<th class="head"><p>Desired output (<span class="math notranslate nohighlight">\(y\)</span>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.5</p></td>
+<td><p>0.5</p></td>
+</tr>
+</tbody>
+</table>
+<p>Because this is such an easy example we know that the solution to this optimization problem is <span class="math notranslate nohighlight">\(w = \frac{y}{x} = \frac{0.5}{1.5} \approx 0.33\)</span>. However, normally neural networks are used for much more complex optimization problems with millions of parameters (weights) and many more training examples. Therefore, the best solution cannot just simply be calculated like this, and an iterative training approach is needed where the network weights are optimized one step at a time.</p>
+</section>
+<section id="Model-initialization">
+<h3>Model initialization<a class="headerlink" href="#Model-initialization" title="Permalink to this headline">¶</a></h3>
+<p>This optimization process predicts the output <span class="math notranslate nohighlight">\(\hat{y}\)</span> given an input <span class="math notranslate nohighlight">\(x\)</span> and a weight <span class="math notranslate nohighlight">\(w\)</span>. The weight <span class="math notranslate nohighlight">\(w\)</span> is updated such that the predicted output <span class="math notranslate nohighlight">\(\hat{y}\)</span> becomes more similar to <span class="math notranslate nohighlight">\(y\)</span>. To start this optimization process, the model weight <span class="math notranslate nohighlight">\(w\)</span> is initialized with a random value, let’s say <span class="math notranslate nohighlight">\(0.8\)</span>. We can now calculate the predicted value (after zero epochs, i.e. at initialization) of <span class="math notranslate nohighlight">\(\hat{y}\)</span>, given that <span class="math notranslate nohighlight">\(x=1.5\)</span> and <span class="math notranslate nohighlight">\(w=0.8\)</span>:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 17%" />
+<col style="width: 25%" />
+<col style="width: 17%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Epoch</p></th>
+<th class="head"><p>Input (<span class="math notranslate nohighlight">\(x\)</span>)</p></th>
+<th class="head"><p>Desired output (<span class="math notranslate nohighlight">\(y\)</span>)</p></th>
+<th class="head"><p>Weight (<span class="math notranslate nohighlight">\(w\)</span>)</p></th>
+<th class="head"><p>Predicted output (<span class="math notranslate nohighlight">\(\hat{y}\)</span>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0 (init)</p></td>
+<td><p>1.5</p></td>
+<td><p>0.5</p></td>
+<td><p>0.8</p></td>
+<td><p>1.2</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="Training-&amp;-loss-function">
+<h3>Training &amp; loss function<a class="headerlink" href="#Training-&-loss-function" title="Permalink to this headline">¶</a></h3>
+<p>Now the question is how the model needs to be trained such that the predicted output reaches the desired output of <span class="math notranslate nohighlight">\(0.5\)</span>. For this training process, a loss function is defined. The model will try to minimize the value of the loss function, and therefore the loss function gives the model feedback on how the network weights should be updated. The loss function for this example is defined as the squared difference between the predicted and desired output:</p>
+<p><span class="math">\begin{equation}
+L = (\hat{y} - y)^2
+\end{equation}</span></p>
+<p>The loss function with respect to the weight is visualized for the given training pair in the following figure. It can be seen that the loss function is parabola with a minimum around <span class="math notranslate nohighlight">\(0.33\)</span> (green dot), which is in line with the solution we calculated earlier.</p>
+<p><a href="#id5"><span class="problematic" id="id6">|0417b5896a2347dab2a613eb9490b7ee|</span></a></p>
+<p>You can see that for the current weight, <span class="math notranslate nohighlight">\(w=0.8\)</span> (red dot), the loss function is not at the minimum. The backpropagation algorithm seeks to minimize the loss by descending along the loss function (red arrow), which is called gradient descent. To take a descending step in the direction of the slope, the derivative of the loss function needs to be calculated.</p>
+<p><p><img alt="79f549ec799f49feb9bda942975937f7" class="no-scaled-link" src="../../_images/todo_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Exercise-2.1:">
+<h3><em>Exercise 2.1</em>:<a class="headerlink" href="#Exercise-2.1:" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Given the model <span class="math notranslate nohighlight">\(\hat{y}=wx\)</span> and the loss function <span class="math notranslate nohighlight">\(L = (\hat{y} - y)^2\)</span>, find the derivative of the loss function with respect to the weight: <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial w}\)</span>. (<strong>Tip</strong>: Use the chain rule: <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial w}=\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial w}\)</span>)</p></li>
+<li><p>Fill in the values of the training set: <span class="math notranslate nohighlight">\(x=1.5\)</span> and <span class="math notranslate nohighlight">\(y=0.5\)</span>.</p></li>
+</ul>
+<p>### Learning rate After calculating the derivative, the model weight is updated by taking a step along the slope. Therefore, a step size needs to be formulated with care. If the step size is too small, it will take many steps before the minimum is reaches. But if the step size is too large, the minimum will not exactly be reached because the red dot ‘bounces’ around the minimum. This step size is usually called the learning rate. For this example, we take a learning rate (<span class="math notranslate nohighlight">\(r\)</span>) of
+<span class="math notranslate nohighlight">\(0.1\)</span>.</p>
+<p>Now the weight can be updated according to the gradient descent and the learning rate as follows: <span class="math">\begin{equation}
+w_{new} = w_{old} - r \frac{\partial L}{\partial w}
+\end{equation}</span></p>
+<p>After one step (i.e. after one epoch, since we have a training set size of 1), the weight is updated to</p>
+<p><span class="math">\begin{equation}
+w_{new} = 0.8 - 0.1 \frac{\partial L}{\partial w}(x=1.5, y=0.5, w=0.8) \approx 0.59,
+\end{equation}</span></p>
+<p>Which means that the updated predicted value is: <span class="math notranslate nohighlight">\(\hat{y}=0.59\cdot 1.5 \approx 0.89\)</span>.</p>
+<p><p><img alt="dedb839d40d3495483db309c22c9c4b1" class="no-scaled-link" src="../../_images/todo_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Exercise-2.2:">
+<h3><em>Exercise 2.2</em>:<a class="headerlink" href="#Exercise-2.2:" title="Permalink to this headline">¶</a></h3>
+<p>Calculate the weights and predicted outputs for the next epochs until the model converges (i.e. the weight is approximately 0.33). Fill in (and continue) the following table:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 17%" />
+<col style="width: 25%" />
+<col style="width: 17%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Epoch</p></th>
+<th class="head"><p>Input (<span class="math notranslate nohighlight">\(x\)</span>)</p></th>
+<th class="head"><p>Desired output (<span class="math notranslate nohighlight">\(y\)</span>)</p></th>
+<th class="head"><p>Weight (<span class="math notranslate nohighlight">\(w\)</span>)</p></th>
+<th class="head"><p>Predicted output (<span class="math notranslate nohighlight">\(\hat{y}\)</span>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0 (init)</p></td>
+<td><p>1.5</p></td>
+<td><p>0.5</p></td>
+<td><p>0.8</p></td>
+<td><p>1.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1.5</p></td>
+<td><p>0.5</p></td>
+<td><p>0.59</p></td>
+<td><p>0.89</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>1.5</p></td>
+<td><p>0.5</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>1.5</p></td>
+<td><p>0.5</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>n</p></td>
+<td><p>1.5</p></td>
+<td><p>0.5</p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><p><img alt="11f037f52aad4bd484c913b67827ceae" class="no-scaled-link" src="../../_images/question_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Question-2.1:">
+<h3><em>Question 2.1</em>:<a class="headerlink" href="#Question-2.1:" title="Permalink to this headline">¶</a></h3>
+<p>After approximately how many epochs does the model converge?</p>
+<p>Type your answer here</p>
+<p><p><img alt="e5e9173283e147bba4f7d8d12b834419" class="no-scaled-link" src="../../_images/question_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Question-2.2:">
+<h3><em>Question 2.2</em>:<a class="headerlink" href="#Question-2.2:" title="Permalink to this headline">¶</a></h3>
+<p>What is the reason for the fast convergence in the beginning of the training and the slow convergence later on, despite the fact that the step size (learning rate) is constant?</p>
+<p>Type your answer here</p>
+</section>
+<section id="Following-model-training">
+<h3>Following model training<a class="headerlink" href="#Following-model-training" title="Permalink to this headline">¶</a></h3>
+<p>Normally this process is done using python because the model is much more complex and then you want to follow the training process to know when the model is done training. To know this you can inspect the loss curve during training.</p>
+<p><p><img alt="f4624404a3144fd1b486edb2263d6474" class="no-scaled-link" src="../../_images/todo_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Exercise-2.3:">
+<h3><em>Exercise 2.3</em>:<a class="headerlink" href="#Exercise-2.3:" title="Permalink to this headline">¶</a></h3>
+<p>In the following python cell, the example model is implemented. To run the cell, you need to <strong>add an extra line</strong> at the to do block of line 21. Define in the formula of <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial w}(w,x,y)\)</span> which you obtained from the first part of <a class="reference external" href="#exercise2_1">Exercise 2.1</a>.</p>
+<p>You can now: * Run the cell below * Check your results of exercise 1b with the table that is printed by this cell * Inspect the training curve</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Define inputs</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mf">1.5</span>   <span class="c1"># input</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mf">0.5</span>   <span class="c1"># desired output</span>
+<span class="n">w</span> <span class="o">=</span> <span class="mf">0.8</span>   <span class="c1"># initial weight</span>
+<span class="n">r</span> <span class="o">=</span> <span class="mf">0.1</span>   <span class="c1"># learning rate</span>
+
+<span class="c1"># Create list with loss values, start with initial loss</span>
+<span class="n">L</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="o">*</span><span class="n">w</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c1"># Print the values that need to be filled in in the table</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Epoch</span><span class="se">\t\t</span><span class="s1">Weight</span><span class="se">\t\t</span><span class="s1">Predicted&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;0</span><span class="se">\t\t</span><span class="si">{</span><span class="n">w</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="se">\t\t</span><span class="si">{</span><span class="n">x</span><span class="o">*</span><span class="n">w</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Train model for 20 epochs</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">):</span>
+    <span class="c1"># Calculate gradient</span>
+    <span class="c1">#---------------------------------------------------------------------#</span>
+    <span class="c1"># TODO: Define the derivative of L with respect to w (as a function of</span>
+    <span class="c1"># w, x, and y). Implement it as follows:</span>
+    <span class="c1"># dL_dw = ...</span>
+    <span class="c1">#!studentstart</span>
+    <span class="n">dL_dw</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+    <span class="c1">#!studentend</span>
+    <span class="c1">#---------------------------------------------------------------------#</span>
+
+    <span class="c1"># Take a step and update the weight</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">r</span><span class="o">*</span><span class="n">dL_dw</span>
+
+    <span class="c1"># Calculate new loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">w</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+
+    <span class="c1"># Print the values of the weight and predicted output</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="se">\t\t</span><span class="si">{</span><span class="n">w</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="se">\t\t</span><span class="si">{</span><span class="n">x</span><span class="o">*</span><span class="n">w</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot Loss curve of training data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)),</span> <span class="n">L</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Loss value over time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">),</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Epochs&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Training loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Epoch           Weight          Predicted
+0               0.80000         1.20000
+1               0.59000         0.88500
+2               0.47450         0.71175
+3               0.41097         0.61646
+4               0.37604         0.56405
+5               0.35682         0.53523
+6               0.34625         0.51938
+7               0.34044         0.51066
+8               0.33724         0.50586
+9               0.33548         0.50322
+10              0.33452         0.50177
+11              0.33398         0.50098
+12              0.33369         0.50054
+13              0.33353         0.50029
+14              0.33344         0.50016
+15              0.33339         0.50009
+16              0.33337         0.50005
+17              0.33335         0.50003
+18              0.33334         0.50001
+19              0.33334         0.50001
+20              0.33334         0.50000
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/reader_reader_2.5_CNNs_fundamental_building_blocks_16_1.png" src="../../_images/reader_reader_2.5_CNNs_fundamental_building_blocks_16_1.png" />
+</div>
+</div>
+<p><p><img alt="1df7b8a89dad4213875667930ce07f50" class="no-scaled-link" src="../../_images/question_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Question-2.3:">
+<h3><em>Question 2.3</em>:<a class="headerlink" href="#Question-2.3:" title="Permalink to this headline">¶</a></h3>
+<p>What do you think of the training process when looking at the loss plot? * Do you think the model was trained for enough epochs? Explain your answer. * Do you think the step size of 0.1 was appropriate for the given model? Explain your answer. * How could you in a real application (objectively) define when the model finished training?</p>
+<p>Type your answer here</p>
+<p><p><img alt="50b343476044478e8cee62b23dcb418b" class="no-scaled-link" src="../../_images/read_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+</section>
+<section id="3.-Neural-network-implementation">
+<h2>3. Neural network implementation<a class="headerlink" href="#3.-Neural-network-implementation" title="Permalink to this headline">¶</a></h2>
+<section id="Project-computer-aided-diagnosis-(CAD)">
+<h3>Project computer-aided diagnosis (CAD)<a class="headerlink" href="#Project-computer-aided-diagnosis-(CAD)" title="Permalink to this headline">¶</a></h3>
+<p>For the CAD project you are asked to implement a logistic regression model for classifying nuclei in histopathology images as either big or small. In this notebook we will implement a small neural network that can also classify these nuclei. When you have finished these exercises, you are free to include these results in your project work.</p>
+<p>Before continuing with the exercises in this notebook, make sure that you have read the description of the <a class="reference internal" href="2.8_CAD_project.html"><span class="doc">CAD project</span></a>, especially for the binary classification. You do not need to complete the project before starting the following exercises, but just read the description to understand the task. The description states that one image has <span class="math notranslate nohighlight">\(24 \times 24 \times 3=1728\)</span> features. Optimally, these features are used in the image space and captured with a
+convolutional neural network, but for simplification purposes and carrying out a numpy implementation we are still going to used these <span class="math notranslate nohighlight">\(1728\)</span> features flattened in a 1D vector. We will use the following neural network, consisting of two fully connected layers and their activation functions (sigmoid activation: <span class="math notranslate nohighlight">\(\sigma\)</span>).</p>
+<p><a href="#id7"><span class="problematic" id="id8">|5d7a164edcf4489480211c1c869bec72|</span></a></p>
+<p>As you can see, the number of features decrease every layer. They start at <span class="math notranslate nohighlight">\(1728\)</span>, then go to <span class="math notranslate nohighlight">\(1000\)</span> and the model outputs only a single value for a given input. This output is a prediction on whether the nuclei is large (output is <span class="math notranslate nohighlight">\(1\)</span>) or small (output is <span class="math notranslate nohighlight">\(0\)</span>).</p>
+</section>
+<section id="Data-loading-&amp;-preprocessing">
+<h3>Data loading &amp; preprocessing<a class="headerlink" href="#Data-loading-&-preprocessing" title="Permalink to this headline">¶</a></h3>
+<p>To implement a neural network we need the training, validation and test set. In this implementation we will be using a supervised network, which means we also need labels (whether the nuclei should be classified as large or small). The following python cell loads the data and applies preprocessing.</p>
+<p><p><img alt="0582cb9f927f488ba877837178873691" class="no-scaled-link" src="../../_images/todo_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Exercise-3.1:">
+<h3><em>Exercise 3.1</em>:<a class="headerlink" href="#Exercise-3.1:" title="Permalink to this headline">¶</a></h3>
+<p>Run the following python cell and try to understand what is happening and inspect the example images.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">reset_selective</span> -f regex
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">scipy.io</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../code&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">cad_util</span> <span class="k">as</span> <span class="nn">util</span>
+
+
+
+<span class="c1">## load dataset (images and labels y)</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="s1">&#39;../data/nuclei_data_classification.mat&#39;</span>
+<span class="n">mat</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+
+<span class="n">training_images</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="s2">&quot;training_images&quot;</span><span class="p">]</span>     <span class="c1"># (24, 24, 3, 14607)</span>
+<span class="n">training_y</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="s2">&quot;training_y&quot;</span><span class="p">]</span>               <span class="c1"># (14607, 1)</span>
+
+<span class="n">validation_images</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="s2">&quot;validation_images&quot;</span><span class="p">]</span> <span class="c1"># (24, 24, 3, 7303)</span>
+<span class="n">validation_y</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="s2">&quot;validation_y&quot;</span><span class="p">]</span>           <span class="c1"># (7303, 1)</span>
+
+<span class="n">test_images</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="s2">&quot;test_images&quot;</span><span class="p">]</span>             <span class="c1"># (24, 24, 3, 20730)</span>
+<span class="n">test_y</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="s2">&quot;test_y&quot;</span><span class="p">]</span>                       <span class="c1"># (20730, 1)</span>
+
+<span class="c1">## dataset preparation</span>
+<span class="c1"># Reshape matrices and normalize pixel values</span>
+<span class="n">training_x</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">reshape_and_normalize</span><span class="p">(</span><span class="n">training_images</span><span class="p">)</span>      <span class="c1"># (14607, 1728)</span>
+<span class="n">validation_x</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">reshape_and_normalize</span><span class="p">(</span><span class="n">validation_images</span><span class="p">)</span>  <span class="c1"># (7303, 1728)</span>
+<span class="n">test_x</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">reshape_and_normalize</span><span class="p">(</span><span class="n">test_images</span><span class="p">)</span>              <span class="c1"># (20730, 1728)</span>
+
+<span class="c1"># Visualize several training images classified as large or small</span>
+<span class="n">util</span><span class="o">.</span><span class="n">visualize_big_small_images</span><span class="p">(</span><span class="n">training_x</span><span class="p">,</span> <span class="n">training_y</span><span class="p">,</span> <span class="n">training_images</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/reader_reader_2.5_CNNs_fundamental_building_blocks_21_0.png" src="../../_images/reader_reader_2.5_CNNs_fundamental_building_blocks_21_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.001</span>
+<span class="n">batchsize</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">n_hidden_features</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="n">in_features</span> <span class="o">=</span> <span class="n">training_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">out_features</span> <span class="o">=</span> <span class="mi">1</span>                  <span class="c1"># Classification problem, so you want to obtain 1 value (a probability) per image</span>
+
+<span class="c1"># Define shapes of the weight matrices</span>
+<span class="c1">#---------------------------------------------------------------------#</span>
+<span class="c1"># TODO: Create two variables: w1_shape and w2_shape, and define them as</span>
+<span class="c1"># follows (as a function of variables defined above)</span>
+<span class="c1"># w1_shape = (.. , ..)</span>
+<span class="c1"># w2_shape = (.. , ..)</span>
+<span class="c1">#!studentstart</span>
+<span class="n">w1_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">n_hidden_features</span><span class="p">)</span>
+<span class="n">w2_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_hidden_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">)</span>
+<span class="c1">#!studentend</span>
+<span class="c1">#---------------------------------------------------------------------#</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Define-initialization-values">
+<h3>Define initialization values<a class="headerlink" href="#Define-initialization-values" title="Permalink to this headline">¶</a></h3>
+<p>To train a model, several initialization variables should be defined.</p>
+<p>Some values are fixed or are already chosen by us (such as the <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code>, <code class="docutils literal notranslate"><span class="pre">batchsize</span></code> and the number of features in the input, hidden and output layer (<code class="docutils literal notranslate"><span class="pre">in_features</span></code>, <code class="docutils literal notranslate"><span class="pre">n_hidden_features</span></code>, <code class="docutils literal notranslate"><span class="pre">out_features</span></code>, respectively)). This means that the sizes of the weight matrices can be calculated.</p>
+<p><p><img alt="51c52d6e469d446db3823872800ee256" class="no-scaled-link" src="../../_images/question_ico.png" style="width: 42px; height: 42px;" /></p>
+</p><p>### <em>Question 3.1</em>: To understand the size of the weight matrices, we show you a small example of a fully connected network, as can be seen in the following figure.</p>
+<p><a href="#id9"><span class="problematic" id="id10">|c0fafdf6989c45188b65de6ccc6b4d23|</span></a></p>
+<p>For this case, the input features <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> have the shape <code class="docutils literal notranslate"><span class="pre">[1,5]</span></code> and the output features <span class="math notranslate nohighlight">\(\mathbf{\hat{y}}\)</span> have the shape <code class="docutils literal notranslate"><span class="pre">[1,2]</span></code>. We also know that <span class="math notranslate nohighlight">\(\mathbf{\hat{y}} = \mathbf{xW}\)</span>. * What is the shape of the matrix <span class="math notranslate nohighlight">\(\mathbf{W}\)</span>? * What would happen with the shape of <span class="math notranslate nohighlight">\(\mathbf{W}\)</span> if a batch of images is given to the network (i.e. shapes of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{\hat{y}}\)</span> are <code class="docutils literal notranslate"><span class="pre">[batchsize,5]</span></code> and <code class="docutils literal notranslate"><span class="pre">[batchsize,2]</span></code>?</p>
+<p>Type your answer here</p>
+<p><p><img alt="8b03a14f716c423fb0dddfa08672b125" class="no-scaled-link" src="../../_images/todo_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Exercise-3.2:">
+<h3><em>Exercise 3.2</em>:<a class="headerlink" href="#Exercise-3.2:" title="Permalink to this headline">¶</a></h3>
+<p>Let’s go back to the original nuclei problem with the two layer network. Complete the to do block in the following python cell by defining the shapes of the weight matrices <code class="docutils literal notranslate"><span class="pre">w1</span></code> and <code class="docutils literal notranslate"><span class="pre">w2</span></code>. When complete, run the python cell.</p>
+</section>
+<section id="Model-functions">
+<h3>Model functions<a class="headerlink" href="#Model-functions" title="Permalink to this headline">¶</a></h3>
+<p>Several functions need to be defined before implementing the model.</p>
+<section id="Activation-function">
+<h4>Activation function<a class="headerlink" href="#Activation-function" title="Permalink to this headline">¶</a></h4>
+<p>As mentioned before, both fully connected layers are followed by a sigmoid activation function, which is defined as:</p>
+<p><a href="#id11"><span class="problematic" id="id12">|9d7a015c46974fc1b2d9dbd3dbfc8065|</span></a></p>
+<p>This activation is used to obtain an eventual output between zero and one, which indicates the probability of a nuclei being large. Such an activation layer simply maps the pixel intensities (x in the plot above) to another range, and no model weights are involved in an activaiton layer.</p>
+</section>
+<section id="Loss-function">
+<h4>Loss function<a class="headerlink" href="#Loss-function" title="Permalink to this headline">¶</a></h4>
+<p>The squared difference between the predicted output <span class="math notranslate nohighlight">\(\mathbf{\hat{y}}\)</span> and the desired output (the label) <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> is again used for the loss function: <span class="math">\begin{equation}
+L = (\mathbf{\hat{y}} - \mathbf{y})^2
+\end{equation}</span></p>
+</section>
+</section>
+<section id="Forward-and-backward-pass">
+<h3>Forward and backward pass<a class="headerlink" href="#Forward-and-backward-pass" title="Permalink to this headline">¶</a></h3>
+<p>For training the model, we need to apply the forward and backward pass. In a forward pass the prediction <span class="math notranslate nohighlight">\(\hat{\mathbf{y}}\)</span> is calculated for a given input <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> with the following steps (assume all hidden layers before or after activation <span class="math notranslate nohighlight">\(\mathbf{h1}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{h2}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{h3}\)</span>): <span class="math">\begin{equation}
+\mathbf{h_1} = \mathbf{xW_1}
+\end{equation}</span> <span class="math">\begin{equation}
+\mathbf{h_2} = \sigma (\mathbf{h_1})
+\end{equation}</span> <span class="math">\begin{equation}
+\mathbf{h_3} = \mathbf{h_2W_2}
+\end{equation}</span> <span class="math">\begin{equation}
+\mathbf{\hat{y}} = \sigma (\mathbf{h_3})
+\end{equation}</span></p>
+<p>Subsequently the backward pass is carried out for updating the weights such that the loss function decreases. The derivatives with respect to the two weight matrices <span class="math notranslate nohighlight">\(\mathbf{W_1}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{W_2}\)</span> are defined (by the chain rule) as follows:</p>
+<p><span class="math">\begin{equation}
+\frac{\partial \mathbf{L}}{\partial \mathbf{W_1}} =
+\frac{\partial \mathbf{L}}{\partial \mathbf{\hat{y}}}
+\frac{\partial \mathbf{\hat{y}}}{\partial \mathbf{h_3}}
+\frac{\partial \mathbf{h_3}}{\partial \mathbf{h_2}}
+\frac{\partial \mathbf{h_2}}{\partial \mathbf{h_1}}
+\frac{\partial \mathbf{h_1}}{\partial \mathbf{W_1}} =  2(\mathbf{\hat{y}} - \mathbf{y}) \cdot \sigma \prime(\mathbf{h3}) \cdot \mathbf{W_2} \cdot \sigma \prime(\mathbf{h1}) \cdot \mathbf{x}
+\end{equation}</span></p>
+<p><span class="math">\begin{equation}
+\frac{\partial \mathbf{L}}{\partial \mathbf{W_2}} =
+\frac{\partial \mathbf{L}}{\partial \mathbf{\hat{y}}}
+\frac{\partial \mathbf{\hat{y}}}{\partial \mathbf{h_3}}
+\frac{\partial \mathbf{h_3}}{\partial \mathbf{W_2}} =  2(\mathbf{\hat{y}} - \mathbf{y}) \cdot \sigma \prime(\mathbf{h3}) \cdot \mathbf{h_2}
+\end{equation}</span></p>
+<p><p><img alt="f85c33c24d8b4bbdaf4aaa8164e3a7e0" class="no-scaled-link" src="../../_images/todo_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Exercise-3.3:">
+<h3><em>Exercise 3.3</em>:<a class="headerlink" href="#Exercise-3.3:" title="Permalink to this headline">¶</a></h3>
+<p>The forward pass and the derivatives of the backward pass are implemented in the following python cell. The model weights are not yet updated, and the new model weights need to be defined as a function of the old weights (<code class="docutils literal notranslate"><span class="pre">w1</span></code> and <code class="docutils literal notranslate"><span class="pre">w2</span></code>), <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code>, and the derivatives (<code class="docutils literal notranslate"><span class="pre">dL_dw1</span></code> and <code class="docutils literal notranslate"><span class="pre">dL_dw2</span></code>). Complete the following Python cell. (<strong>Tip:</strong> Have a look at the <a class="reference external" href="#learning_rate">first</a> part of this notebook).</p>
+<p>Run the python cell once you have completed the code.</p>
+</section>
+<section id="Model-training-&amp;-validation">
+<h3>Model training &amp; validation<a class="headerlink" href="#Model-training-&-validation" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference external" href="#backpropagation">backpropagation example</a> in the first part of this notebook is based on a single input-label training pair, but this implementation is based on a training set of 14607 image-label pairs. As discovered in <a class="reference external" href="#question3_1">Question 3.1</a>, the number of examples given as input (in that case either <code class="docutils literal notranslate"><span class="pre">1</span></code> or <code class="docutils literal notranslate"><span class="pre">batchsize</span></code>) does not affect the size of the weight matrix. Therefore you can choose to show more image-label pairs at the same time such that less passes are needed
+to ‘see’ the entire training set.</p>
+<p>For this model we choose a batchsize of 128, which means that 128 image-label pairs are given to the model at a time and then the model updates its weights according to the losses of these 128 pairs. Subsequently the next batch of images is given to the model and after batch several iterations the model completed a full epoch where the whole training set is seen once.</p>
+<p>Normally the model needs to train for many epochs to converge. The following python cell implements a training for 100 epochs. As you can see there are two for-loops: one for-loop for the epoch and one for-loop for the batch. After every epoch is completed, the validation set is fed though the network (all at once) to calculate the validation loss and the model performance (accuracy) over time.</p>
+<p><p><img alt="429d2bb5f7184d74b1db2810f014bfa3" class="no-scaled-link" src="../../_images/todo_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Exercise-3.4:">
+<h3><em>Exercise 3.4</em>:<a class="headerlink" href="#Exercise-3.4:" title="Permalink to this headline">¶</a></h3>
+<p>Inspect and run the following python cell (it takes some time to do all the calculations).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+    <span class="n">w1</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="s1">&#39;w1&#39;</span><span class="p">]</span>
+    <span class="n">w2</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="s1">&#39;w2&#39;</span><span class="p">]</span>
+
+    <span class="n">hidden</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w1</span><span class="p">))</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="n">w2</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">hidden</span><span class="p">,</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">hidden</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+    <span class="n">w1</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="s1">&#39;w1&#39;</span><span class="p">]</span>
+    <span class="n">w2</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="s1">&#39;w2&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Caluclate the derivative with the use of the chain rule</span>
+    <span class="n">dL_dw2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hidden</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">output</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">util</span><span class="o">.</span><span class="n">sigmoid_derivative</span><span class="p">(</span><span class="n">output</span><span class="p">)))</span>
+    <span class="n">dL_dw1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>  <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">output</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">util</span><span class="o">.</span><span class="n">sigmoid_derivative</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">w2</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">util</span><span class="o">.</span><span class="n">sigmoid_derivative</span><span class="p">(</span><span class="n">hidden</span><span class="p">)))</span>
+
+    <span class="c1"># update the weights with the derivative (slope) of the loss function</span>
+    <span class="c1">#---------------------------------------------------------------------#</span>
+    <span class="c1"># TODO: Update the variables: w1 and w2, and define them as</span>
+    <span class="c1"># follows (as a function of learning_rate, dL_dw1, and dL_dw2)</span>
+    <span class="c1"># w1 = w1 - ...</span>
+    <span class="c1"># w2 = w2 - ...</span>
+    <span class="c1">#!studentstart</span>
+    <span class="n">w1</span> <span class="o">=</span> <span class="n">w1</span> <span class="o">-</span> <span class="n">learning_rate</span><span class="o">*</span><span class="n">dL_dw1</span>
+    <span class="n">w2</span> <span class="o">=</span> <span class="n">w2</span> <span class="o">-</span> <span class="n">learning_rate</span><span class="o">*</span><span class="n">dL_dw2</span>
+    <span class="c1">#!studentend</span>
+<span class="c1">#---------------------------------------------------------------------#</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;w1&#39;</span><span class="p">:</span> <span class="n">w1</span><span class="p">,</span>
+            <span class="s1">&#39;w2&#39;</span><span class="p">:</span> <span class="n">w2</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Define empty lists for saving training progress variables</span>
+<span class="n">training_loss</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">validation_loss</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">Acc</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># randomly initialize model weights</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="n">w1_shape</span><span class="p">,</span> <span class="n">w2_shape</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; Start training ...&#39;</span><span class="p">)</span>
+<span class="c1"># Train for n_epochs epochs</span>
+<span class="n">n_epochs</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="k">5</span>==0: print(&#39;epoch {}/{}&#39;.format(epoch+1, n_epochs))
+
+    <span class="c1"># Shuffle training images every epoch</span>
+    <span class="n">training_x</span><span class="p">,</span> <span class="n">training_y</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">shuffle_training_x</span><span class="p">(</span><span class="n">training_x</span><span class="p">,</span> <span class="n">training_y</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">batch_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">training_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="n">batchsize</span><span class="p">):</span>
+
+        <span class="c1">## sample images from this batch</span>
+        <span class="n">batch_x</span> <span class="o">=</span> <span class="n">training_x</span><span class="p">[</span><span class="n">batchsize</span><span class="o">*</span><span class="n">batch_i</span> <span class="p">:</span> <span class="n">batchsize</span><span class="o">*</span><span class="p">(</span><span class="n">batch_i</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="n">batch_y</span> <span class="o">=</span> <span class="n">training_y</span><span class="p">[</span><span class="n">batchsize</span><span class="o">*</span><span class="n">batch_i</span> <span class="p">:</span> <span class="n">batchsize</span><span class="o">*</span><span class="p">(</span><span class="n">batch_i</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+
+        <span class="c1">## train on one batch</span>
+        <span class="c1"># Forward pass</span>
+        <span class="n">hidden</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">batch_x</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+        <span class="c1"># Backward pass</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">backward</span><span class="p">(</span><span class="n">batch_x</span><span class="p">,</span> <span class="n">batch_y</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">hidden</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+
+        <span class="c1">## Save values of loss function for plot</span>
+        <span class="n">training_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">batch_y</span><span class="p">))</span>
+        <span class="n">steps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="n">batch_i</span><span class="o">/</span><span class="p">(</span><span class="n">training_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="n">batchsize</span><span class="p">))</span>
+
+    <span class="c1">## Validation images trhough network</span>
+    <span class="c1"># Forward pass only (no backward pass in inference phase!)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">val_output</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">validation_x</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="c1"># Save validation loss</span>
+    <span class="n">validation_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">val_output</span><span class="p">,</span> <span class="n">validation_y</span><span class="p">))</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="p">(</span><span class="n">validation_y</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">val_output</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="p">(</span><span class="n">validation_y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">Acc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; Training finished&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot loss function and accuracy of validation set</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span><span class="n">training_loss</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">validation_loss</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">validation_loss</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;epochs&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Training loss&#39;</span><span class="p">,</span> <span class="s1">&#39;Validation loss&#39;</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Loss curves&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Acc</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Validation accuracy over time&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Accuracy&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;epochs&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&gt; Start training ...
+epoch 5/100
+epoch 10/100
+epoch 15/100
+epoch 20/100
+epoch 25/100
+epoch 30/100
+epoch 35/100
+epoch 40/100
+epoch 45/100
+epoch 50/100
+epoch 55/100
+epoch 60/100
+epoch 65/100
+epoch 70/100
+epoch 75/100
+epoch 80/100
+epoch 85/100
+epoch 90/100
+epoch 95/100
+epoch 100/100
+&gt; Training finished
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/reader_reader_2.5_CNNs_fundamental_building_blocks_30_1.png" src="../../_images/reader_reader_2.5_CNNs_fundamental_building_blocks_30_1.png" />
+</div>
+</div>
+<p><p><img alt="ce01599de1ad4aaea1d109a3707b7525" class="no-scaled-link" src="../../_images/question_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Question-3.2:">
+<h3><em>Question 3.2</em>:<a class="headerlink" href="#Question-3.2:" title="Permalink to this headline">¶</a></h3>
+<p>Inspect the results of the training. * Do you think the model is suitable for this task, and that it is trained well? * What is remarkable about the loss curves? What is this phenomena called? * Could you think of solutions for reducing the gap between training and validation loss?</p>
+<p>Type your answer here</p>
+</section>
+<section id="Final-model-performance">
+<h3>Final model performance<a class="headerlink" href="#Final-model-performance" title="Permalink to this headline">¶</a></h3>
+<p>Inspecting the model’s training and performance on the validation set is useful for making adaptations to your model to eventually obtain the best model for this task. After the model is fully optimized, you want to present you final performance on a test set that has not yet been used in the optimization process. In the following Python cell, the complete test set is fed trough the network and the final test accuracy is given. All test predictions are visualized in a histogram with with the
+color of the given label.</p>
+<p><p><img alt="6aa7b8314c8c4fc8a766300602ddca91" class="no-scaled-link" src="../../_images/question_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Question-3.3:">
+<h3><em>Question 3.3</em>:<a class="headerlink" href="#Question-3.3:" title="Permalink to this headline">¶</a></h3>
+<p>Run the following cell. * If you completed the entire code correctly a test accuracy of 0.76 is given, did you obtain the same result? * What is noticeable about the shown histogram?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Forward pass on test set</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">test_output</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+<span class="n">test_accuracy</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_y</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">test_output</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="p">(</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test accuracy: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">test_accuracy</span><span class="p">))</span>
+
+<span class="c1"># Plot final test predictions</span>
+<span class="n">large_list</span> <span class="o">=</span> <span class="n">test_output</span><span class="p">[</span><span class="n">test_y</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">small_list</span> <span class="o">=</span> <span class="n">test_output</span><span class="p">[</span><span class="n">test_y</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">large_list</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">small_list</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Large&#39;</span><span class="p">,</span> <span class="s1">&#39;Small&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Prediction&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Final test set predictions&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Test accuracy: 0.76
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/reader_reader_2.5_CNNs_fundamental_building_blocks_34_1.png" src="../../_images/reader_reader_2.5_CNNs_fundamental_building_blocks_34_1.png" />
+</div>
+</div>
+<p>Type your answer here</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Daniel Krahulec.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

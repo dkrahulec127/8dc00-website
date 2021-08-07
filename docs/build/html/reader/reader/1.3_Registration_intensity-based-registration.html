@@ -1,0 +1,745 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Topic 1.3: Intensity-based registration &mdash; Medical Image Analysis (8DC00) v0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Medical Image Analysis (8DC00)
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Topic 1.3: Intensity-based registration</a><ul>
+<li><a class="reference internal" href="#1.-Intensity-based-similarity-metrics-(theory)">1. Intensity-based similarity metrics (theory)</a><ul>
+<li><a class="reference internal" href="#Sum-of-square-differences">Sum of square differences</a></li>
+<li><a class="reference internal" href="#Cross-correlation">Cross-correlation</a></li>
+<li><a class="reference internal" href="#Mutual-information">Mutual information</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#2.-Probability-theory">2. Probability theory</a><ul>
+<li><a class="reference internal" href="#Random-variables">Random variables</a></li>
+<li><a class="reference internal" href="#Probability-mass-function-(a.k.a-probability-distribution-table)">Probability mass function (a.k.a probability distribution table)</a></li>
+<li><a class="reference internal" href="#Probability-density-function">Probability density function</a></li>
+<li><a class="reference internal" href="#Bayes’-rule">Bayes’ rule</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#3.-Optimization-for-intensity-based-registration:">3. Optimization for intensity-based registration:</a><ul>
+<li><a class="reference internal" href="#Gradient-ascent-/-descent:">Gradient ascent / descent:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#4.-Intensity-based-image-registration-(exercises)">4. Intensity-based image registration (exercises)</a><ul>
+<li><a class="reference internal" href="#Exercise-4.1.1:"><em>Exercise 4.1.1</em>:</a></li>
+<li><a class="reference internal" href="#Exercise-4.1.2:"><em>Exercise 4.1.2</em>:</a></li>
+<li><a class="reference internal" href="#Question-4.1.1:"><em>Question 4.1.1</em>:</a></li>
+<li><a class="reference internal" href="#Question-4.2.1:"><em>Question 4.2.1</em>:</a></li>
+<li><a class="reference internal" href="#Exercise-4.2.1:"><em>Exercise 4.2.1</em>:</a></li>
+<li><a class="reference internal" href="#Exercise-4.3.1:"><em>Exercise 4.3.1</em>:</a></li>
+<li><a class="reference internal" href="#Question-4.3.1:"><em>Question 4.3.1</em>:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#References">References</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Medical Image Analysis (8DC00)</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Topic 1.3: Intensity-based registration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/reader/reader/1.3_Registration_intensity-based-registration.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="Topic-1.3:-Intensity-based-registration">
+<h1>Topic 1.3: Intensity-based registration<a class="headerlink" href="#Topic-1.3:-Intensity-based-registration" title="Permalink to this headline">¶</a></h1>
+<p>This notebook combines theory with exercises to support the understanding of intensity-based registration in medical image analysis. Implement all functions in the <code class="docutils literal notranslate"><span class="pre">code</span></code> folder of your cloned repository, and test it in this notebook after implementation by importing your functions to this notebook. Use available markdown sections to fill in your answers to questions as you proceed through the notebook.</p>
+<p><strong>Contents:</strong></p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="#int_registration">Intensity-based similarity metrics (theory)</a></p></li>
+<li><p><a class="reference external" href="#prob_theory">Probability theory</a></p></li>
+<li><p><a class="reference external" href="#optim">Optimization for intensity-based registration</a></p></li>
+<li><p><a class="reference external" href="#int_registration_ex">Intensity-based similarity metrics (exercises)</a> 4.1 <a class="reference external" href="#numerical_diff">Numerical differentiation</a> 4.2 <a class="reference external" href="#img_trans">Similarity as a function of image transformation</a> 4.3 <a class="reference external" href="#rotation">Similarity as a function of rotation</a></p></li>
+</ol>
+<p><p><img alt="28da8badaf3340798e4e4e7f277a78a2" class="no-scaled-link" src="../../_images/read_ico.png" style="width: 42px; height: 42px;" /></p>
+</p><p>Besides points and surface features, image intensity is an alternative registration basis. It is even the most widely used registration basis. In general, the term <em>intensity</em> refers to scalar values of image pixels or voxels, which are used to calculate transformations between two images.</p>
+<section id="1.-Intensity-based-similarity-metrics-(theory)">
+<h2>1. Intensity-based similarity metrics (theory)<a class="headerlink" href="#1.-Intensity-based-similarity-metrics-(theory)" title="Permalink to this headline">¶</a></h2>
+<p>Compared with point-based registration, intensity-based registration requires less user interaction as it works by iterative optimization of an intensity-based similarity measure (sum of square differences, cross-correlation, mutual information, joint entropy, ratio-image uniformity or partitioned uniformity). Due to the prevalence of 3D volumes in medical imaging, the term <em>voxel similarity measures</em> is typically used to jointly address these methods. In practice, algorithms perform
+registration between two images based on a voxel subset, which is either randomly chosen or defined by a grid. In other applications, segmentation algorithms aid registration by preselecting a subset of voxels comprising specific regions of interest. At last, similarity measures may be applied on e.g. image gradients instead of voxel values themselves.</p>
+<p>Intensity-based registration methods are relatively easy to automate and require few manual steps. However, their application is restricted to a limited range of images given the need for image preprocessing. Algorithms exploiting intensity-based image registration can be used for various purposes: registration of images with different dimensionality; intermodal and intramodal registration; and registration involving complex transforms, to name some.</p>
+<section id="Sum-of-square-differences">
+<h3>Sum of square differences<a class="headerlink" href="#Sum-of-square-differences" title="Permalink to this headline">¶</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(I\)</span> and <span class="math notranslate nohighlight">\(J\)</span> be two images and <span class="math notranslate nohighlight">\(i\)</span> the pixel locations. A simple and intuitive intensity-based measure of the similarity of <span class="math notranslate nohighlight">\(I\)</span> and <span class="math notranslate nohighlight">\(J\)</span> is the sum of squared differences (SSD). The SSD will be equal to zero provided that both images are correctly aligned, and will grow with increasing registration error (misalignement). If <span class="math notranslate nohighlight">\(I\)</span> is the fixed image in a registration problem, and <span class="math notranslate nohighlight">\(J\)</span> is the moving image transformed with a transformation <span class="math notranslate nohighlight">\(T\)</span>, the
+similarity measure will be a function of the transformation. It can be shown that this measure is optimal when two images differ only by Gaussian noise. This is an implicit assumption of this measure, which does not hold for inter-modality registration, and is rarely true for intra-modality registration (e.g. MRI noise is non-Gaussian due to artifacts, which leads to changes between acquisitions, etc.). Nevertheless, SSD can still be successfully used in intra-modality registration. A possible
+drawback of this similarity measure is that it can be sensitive to “outlier” intensity differences. An SSD algorithm can be denoted as finding the transformation <em>T</em> to minimize for images <span class="math notranslate nohighlight">\(I\)</span> and <span class="math notranslate nohighlight">\(J\)</span>:</p>
+<p><span class="math notranslate nohighlight">\(\mathbf{SSD} = \sum_{i}|I(i) - B^\prime(i)|^{2}\,\,\,\,\,\,\, \forall\,i \in A \cap B^\prime\)</span></p>
+</section>
+<section id="Cross-correlation">
+<h3>Cross-correlation<a class="headerlink" href="#Cross-correlation" title="Permalink to this headline">¶</a></h3>
+<p>Another measure making slightly less assumptions is called (normalized) cross-correlation (CC). Normalized CC assumes there is a linear relationship between pixel intensities in two images, which frequently is the case for registration of images acquired with the same modality. For images <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> with voxels <span class="math notranslate nohighlight">\(i\)</span>, we try to find the transformation <span class="math notranslate nohighlight">\(T\)</span> to maximize the equation:</p>
+<p><span class="math notranslate nohighlight">\(\mathrm{CC} = \frac{\sum_{i}(A(i) - \bar{A})(B^\prime(i)-\bar{B}^\prime)}{\big\{\sum_{i}(A(i) - \bar{A})^{2}\sum_{i}(B^\prime(i)-\bar{B}^\prime)^{2}\big\}^{\frac{1}{2}}}\)</span> , where <span class="math notranslate nohighlight">\(\bar{A}\)</span> and <span class="math notranslate nohighlight">\(\bar{B}^\prime\)</span> are the mean voxel values in image <span class="math notranslate nohighlight">\(A\)</span> and the transformed image <span class="math notranslate nohighlight">\(B\)</span>, respectively.</p>
+</section>
+<section id="Mutual-information">
+<h3>Mutual information<a class="headerlink" href="#Mutual-information" title="Permalink to this headline">¶</a></h3>
+<p>Compared to the above measures, mutual information (MI) makes very few a priori assumptions about registered objects, which is why it can be applied to larger dimensional registration and many other imaging situations.</p>
+<p>Intuitively, MI tries to find out, how much information we have about the pixel intensity at the same location in image <span class="math notranslate nohighlight">\(J\)</span> provided that we know the pixel intensity value at some location in the fixed image <span class="math notranslate nohighlight">\(J\)</span>. MI is therefore essentially a reduction in the uncertainty of <span class="math notranslate nohighlight">\(Y\)</span> due to the knowledge of <span class="math notranslate nohighlight">\(I\)</span>. Given the joint PMF of two images and the two marginal PMF’s, the mutual information between the two images can be computed with the following formula:</p>
+<p><span class="math notranslate nohighlight">\(\mathrm{MI(I,J)} = \sum_{i=1}^n\sum_{j=1}^n p_{I,J}(i,j)\log\frac{p_{I,J}(i,j)}{p_{I}(i)p_{J}(j)}\)</span></p>
+<p>The unit of MI depends on the particular log function: when using the natural logarithm, the unit is nats, when using base 2 logarithm, the unit is bits. In its essence, MI is a measure of the “compactness” of the joint PMF of two images. When the two images are well registered, the joint PMF is compact. When the two images are not well aligned the joint PMF is “spread out”.</p>
+<p>When one of the images is being transformed, the similarity measures are a function of the image transformation. This is “step 1” in our general approach to registering two images. “Step 2” is finding the parameters that find the transformation that maximizes the similarity between two images.</p>
+<p><p><img alt="72e7e1d5e50e460ea803b80c2b1f8bf4" class="no-scaled-link" src="../../_images/read_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+</section>
+<section id="2.-Probability-theory">
+<h2>2. Probability theory<a class="headerlink" href="#2.-Probability-theory" title="Permalink to this headline">¶</a></h2>
+<section id="Random-variables">
+<h3>Random variables<a class="headerlink" href="#Random-variables" title="Permalink to this headline">¶</a></h3>
+<p>Random variables map the outcomes of random phenomena to numbers. Remember the example with coin tossing in the lecture? There, we had a random variable <span class="math notranslate nohighlight">\(X\)</span> (outcome of the coin toss), and another random variable <span class="math notranslate nohighlight">\(Y\)</span> (the number of heads in a series of 3 tosses). To represent possible values and the respective probabilities of the magnitude of a random variable, we use probability distribution functions. In a similar way, we can define medical image intensities as random variables.</p>
+</section>
+<section id="Probability-mass-function-(a.k.a-probability-distribution-table)">
+<h3>Probability mass function (a.k.a probability distribution table)<a class="headerlink" href="#Probability-mass-function-(a.k.a-probability-distribution-table)" title="Permalink to this headline">¶</a></h3>
+<p>Random phenomenon: Pick a random pixel location. In this case, the pixel intensity can be treated as a random variable. Each outcome from the random phenomenon we are studying can be associated with a probability. If a random variable <span class="math notranslate nohighlight">\(X\)</span> can have a finite set of possible values, we can define a function that maps each possible value to a probability. This function is called <strong>probability mass function</strong> (PMF), and expresses a <em>discrete probability distribution</em>.</p>
+<p>Probability mass function:</p>
+<p><span class="math notranslate nohighlight">\(p_{X}(x) = P(X = x)\)</span></p>
+<p><img alt="2b906cdacf9f409cb9876f51d8769fb6" class="no-scaled-link" src="../../_images/pmf.png" style="width: 500px; height: 300px;" /></p>
+<p style="font-size:8px;"><p>Figure from “Fong Chun Chan’s Blog”.</p>
+</p><p>What if we have two random variables? For example, the pixel intensity in two images. In such case, we can define a joint probability mass function:</p>
+<p><span class="math notranslate nohighlight">\(p_{X,Y}(x,y) = P(X = x, Y = y)\)</span></p>
+<p>PMF can be used to determine the probability of an observation being exactly equal to a discrete target value. But how can we define the probability mass function for the image intensities? We can use image histogram for this purpose by counting the number of occurrences of each intensity value in the image. In order to treat the counts of the histogram as probability values, we must normalize the histogram in such a way that all values sum to 1. This is the probability mass function for the
+pixel intensity as a random variable.</p>
+</section>
+<section id="Probability-density-function">
+<h3>Probability density function<a class="headerlink" href="#Probability-density-function" title="Permalink to this headline">¶</a></h3>
+<p>Probability mass function is defined for discrete random variables. In case of continuous random variables, however, their probabilities are not directly measurable, and we therefore calculate the probability as the proportion of times. Imagine you had a random variable that measured the price of a diamond. Now, what is the probability that a single diamond’s price is exactly equal to e.g. 150 USD? The probability of getting a diamond for that exact price would be very low, if any at all.
+Therefore, a given value of a variable on a continuous scale cannot be assigned a probability. We therefore need to think in terms of intervals instead of individual outcomes. For continuous random variables, which can take infinite number of possible values, we can define the <strong>probability density function</strong> (PDF), where the probability of <span class="math notranslate nohighlight">\(y \in [a,b]\)</span> is equivalent to the integral of the PDF between <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>:</p>
+<p><span class="math notranslate nohighlight">\(P(a \leq y \leq b) = \int_{a}^{b}\,f(Y)\,dy\)</span></p>
+<p><img alt="1dd438ef688c444a8bbd83b717b16bb3" class="no-scaled-link" src="../../_images/pdf.png" style="width: 500px; height: 300px;" /></p>
+<p style="font-size:8px;"><p>Figure from “Fong Chun Chan’s Blog”.</p>
+</p></section>
+<section id="Bayes’-rule">
+<h3>Bayes’ rule<a class="headerlink" href="#Bayes’-rule" title="Permalink to this headline">¶</a></h3>
+<p>Bayes’ rule is a very useful formula that we will use later in the computer-aided diagnosis notebooks of this course. The so-called Bayes’ theorem gives the probability of an event based on new information that is, or may be related, to that event. Mathematically, the Bayes’ theorem can be expressed as follow:</p>
+<p><span class="math notranslate nohighlight">\(p_{X|Y} = \frac{p_{Y|X}(x|y)p_{Y}(y)}{p_{X}(x)}\)</span> ,</p>
+<p>where <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are events and <span class="math notranslate nohighlight">\(P(Y) \neq 0\)</span>, and: - <span class="math notranslate nohighlight">\(p_{X|Y}\)</span> is the probability of event <span class="math notranslate nohighlight">\(X\)</span> occurring given event <span class="math notranslate nohighlight">\(Y\)</span> is true; also known as the posterior probability of <span class="math notranslate nohighlight">\(X\)</span> given <span class="math notranslate nohighlight">\(Y\)</span> - <span class="math notranslate nohighlight">\(p_{Y|X}(x|y)\)</span> is the likelihood of <span class="math notranslate nohighlight">\(X\)</span> given a fixed <span class="math notranslate nohighlight">\(Y\)</span> - <span class="math notranslate nohighlight">\(p_{X}(x)\)</span> and <span class="math notranslate nohighlight">\(p_{Y}(y)\)</span> are the probabilities of observing the two events without any given conditions; also known as marginal or prior probabilities - <span class="math notranslate nohighlight">\(X\)</span> and
+<span class="math notranslate nohighlight">\(Y\)</span> are events (must not be the same)</p>
+<p>Bayes’ theorem is typically utilized in diagnostic decision-making, e.g. to find out if there is a certain clinical manifestation in a patient before images are acquired. Given the prevalence of a disease, a radiologist is able to first estimate the marginal probability of the disease and afterwards assess medical images based on this prior. The Bayes’ rule enables to derive positive predictive and negative predictive values in radiologists’ pre-assessment tasks. Furthermore, this probability
+theorem also has its utility in cases with similar imaging findings in different diagnoses to calculate the probability at which certain imaging characteristics pertain to rare or common diagnoses (regardless of complete clinical contexts). The Bayes’ theorem is also used in algorithms for medical image artefact corrections, such as in MRI and perfusion-weighted images to reduce noise. Bayesian inference has a wide range of applications in AI-driven radiology software.</p>
+<p><p><img alt="182f6770a4d04c4b910fa6ae62162b2b" class="no-scaled-link" src="../../_images/read_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+</section>
+<section id="3.-Optimization-for-intensity-based-registration:">
+<h2>3. Optimization for intensity-based registration:<a class="headerlink" href="#3.-Optimization-for-intensity-based-registration:" title="Permalink to this headline">¶</a></h2>
+<p>General procedure for maximizing similarity functions is:</p>
+<ol class="arabic simple">
+<li><p>Start with some initial values for the parameters (e.g. transformation <span class="math notranslate nohighlight">\(T\)</span>).</p></li>
+<li><p>Slightly update the parameters in such a way that the similarity will slightly increase.</p></li>
+<li><p>Repeat until the similarity <em>stops increasing</em>.</p></li>
+</ol>
+<section id="Gradient-ascent-/-descent:">
+<h3>Gradient ascent / descent:<a class="headerlink" href="#Gradient-ascent-/-descent:" title="Permalink to this headline">¶</a></h3>
+<p>To optimize similarity functions in intensity-based registration, we typically use gradient ascent (to localize function maximum) or gradient descent (to localize function minimum). In other words, these numerical methods help us find the minimum of the error or the maximum of the similarity in registration. To find the minimum and maximum of a function, we can compute the derivative and set it to zero (in case of more variables, set all partial derivatives to zero).</p>
+<p>Gradient ascent algorithm for maximizing a function <span class="math notranslate nohighlight">\(f(\mathbf{w})\)</span>:</p>
+<ol class="arabic simple">
+<li><p>Choose some initial values of the parameters <span class="math notranslate nohighlight">\(\mathbf{w}\)</span></p></li>
+<li><p>Calculate the value for the gradient of <span class="math notranslate nohighlight">\(f(\mathbf{w})\)</span> for the current parameters</p></li>
+<li><p>Update the parameters in the direction of the gradient: <span class="math notranslate nohighlight">\(\mathbf{w} \leftarrow \mathbf{w} \color{red} + \mu\nabla_{\mathbf{w}}f(\mathbf{w})\)</span></p></li>
+</ol>
+<p>If we want to minimize the function we move in the direction opposite of the gradient (gradient descent): <span class="math notranslate nohighlight">\(\mathbf{w} \leftarrow \mathbf{w} \color{red} - \mu\nabla_{\mathbf{w}}f(\mathbf{w})\)</span></p>
+<p>The parameter <span class="math notranslate nohighlight">\(\mu\)</span> is called learning rate. It controls how fast we move towards the maximum (minimum). If <span class="math notranslate nohighlight">\(\mu\)</span> is too small, the maximum (or minimum) might not be reached in reasonable time. If <span class="math notranslate nohighlight">\(\mu\)</span> is too large, the maximum (minimum) might be missed. Initialization is important. Different starting points will result in different found maxima (and not always global).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+<p><p><img alt="f688b5aa0c7e48e3b4c1c6e4cd16359f" class="no-scaled-link" src="../../_images/read_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+</section>
+<section id="4.-Intensity-based-image-registration-(exercises)">
+<h2>4. Intensity-based image registration (exercises)<a class="headerlink" href="#4.-Intensity-based-image-registration-(exercises)" title="Permalink to this headline">¶</a></h2>
+<p>### 4.1 Numerical differentiation Numerical differentiation refers to finding the value of a derivative of a given function at a given point without the need to analytically differentiate the function. This technique can be very useful, for example, when the analytical expression for the derivative is too complex and computationally expensive to evaluate. In such a case it might be significantly faster to approximate the derivative instead of computing its exact value.</p>
+<p>A simple expression that approximates the derivative of a function <span class="math notranslate nohighlight">\(f(x)\)</span> is:</p>
+<p><span class="math">\begin{equation}
+\frac{d}{d x} f(x) \approx \frac{f(x+h)-f(x)}{h}
+\end{equation}</span></p>
+<p>where <span class="math notranslate nohighlight">\(h\)</span> is some very small positive number. When <span class="math notranslate nohighlight">\(h\)</span> approaches zero this expression becomes the true value of the derivative:</p>
+<p><span class="math">\begin{equation}
+\frac{d}{d x} f(x)=\lim _{h \rightarrow 0} \frac{f(x+h)-f(x)}{h}
+\end{equation}</span></p>
+<p>A better approximation of the derivative is the symmetric difference quotient given by the following expression:</p>
+<p><span class="math">\begin{equation}
+\frac{d}{d x} f(x) \approx \frac{f\left(x+\frac{h}{2}\right)-f\left(x-\frac{h}{2}\right)}{h}
+\end{equation}</span></p>
+<p>Numerical differentiation can also be used to approximate the partial derivatives of a function with more than one variable, for example:</p>
+<p><span class="math">\begin{equation}
+\frac{\partial}{\partial x} f(x, y) \approx \frac{f\left(x+\frac{h}{2}, y\right)-f\left(x-\frac{h}{2}, y\right)}{h}
+\end{equation}</span></p>
+<p><span class="math">\begin{equation}
+\frac{\partial}{\partial y} f(x, y) \approx \frac{f\left(x, y+\frac{h}{2}\right)-f\left(x, y-\frac{h}{2}\right)}{h}
+\end{equation}</span></p>
+<p>and in turn the gradient:</p>
+<p><span class="math">\begin{equation}
+\ f(x, y)=\left[ \begin{array}{c}{\frac{\partial}{\partial x} f(x, y)} \\ {\frac{\partial}{\partial y} f(x, y)}\end{array}\right] \approx\left[\frac{\frac{f\left(x+\frac{h}{2}, y\right)-f\left(x-\frac{h}{2}, y\right)}{h}}{\frac{f\left(x, y+\frac{h}{2}\right)-f\left(x, y-\frac{h}{2}\right)}{h}}\right]
+\end{equation}</span></p>
+<p><p><img alt="7f2cfdfd8ba5417c8312aa7859c7daf5" class="no-scaled-link" src="../../_images/todo_ico.png" style="width: 42px; height: 42px;" /></p>
+</p><section id="Exercise-4.1.1:">
+<h3><em>Exercise 4.1.1</em>:<a class="headerlink" href="#Exercise-4.1.1:" title="Permalink to this headline">¶</a></h3>
+<p>In the provided template for the <code class="docutils literal notranslate"><span class="pre">ngradient()</span></code> function in <code class="docutils literal notranslate"><span class="pre">SECTION</span> <span class="pre">4</span></code> of the <code class="docutils literal notranslate"><span class="pre">`registration.py</span></code> &lt;../code/registration.py&gt;`__ module, implement the computation of the gradient of a function with numerical differentiation using the symmetric difference quotient.</p>
+<p><p><img alt="0d1c6bafb48e4c1c88ee2eeb399a2093" class="no-scaled-link" src="../../_images/todo_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Exercise-4.1.2:">
+<h3><em>Exercise 4.1.2</em>:<a class="headerlink" href="#Exercise-4.1.2:" title="Permalink to this headline">¶</a></h3>
+<p>Test your implementation of <code class="docutils literal notranslate"><span class="pre">ngradient()</span></code>. An easy way to test this function is to numerically compute the gradient and then verify with the analytical expression. For example, since <span class="math notranslate nohighlight">\(\frac{d}{d x} e^{x}=e^{x}\)</span> the the numerical derivative <span class="math notranslate nohighlight">\(\frac{d}{d x} e^{x}\)</span> should have approximately the same value as <span class="math notranslate nohighlight">\(e^{x}\)</span>. Write your test cases in the provided <code class="docutils literal notranslate"><span class="pre">ngradient_test()</span></code> script in <code class="docutils literal notranslate"><span class="pre">SECTION</span> <span class="pre">4</span></code> of the <code class="docutils literal notranslate"><span class="pre">`registration_tests.py</span></code> &lt;../code/registration_tests.py&gt;`__ module.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../code&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">registration_tests</span> <span class="kn">import</span> <span class="n">ngradient_test</span>
+
+<span class="n">ngradient_test</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Test successful!
+</pre></div></div>
+</div>
+<p><p><img alt="6343ed6dc4ad403d9700e54c593bcb80" class="no-scaled-link" src="../../_images/question_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Question-4.1.1:">
+<h3><em>Question 4.1.1</em>:<a class="headerlink" href="#Question-4.1.1:" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">ndgradient()</span></code> function can be used to perform optimization with the gradient ascent/descent method. Describe in short how this algorithm works. What is the role of the learning rate parameter in gradient descent/ascent?</p>
+<p>Type your answer here</p>
+<p>### 4.2 Similarity as a function of image transformation</p>
+<p>In the previous section, you have analyzed how the similarity between two images changes as a function of the rotation of one of the images. The goal of this exercise is to write a Python function that, given two images and the parameters of some transformation between them, will output the similarity measure. This function can then be used in combination with <code class="docutils literal notranslate"><span class="pre">ndgradient()</span></code> from the previous exercise to perform gradient based optimization of the transformation parameters.</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">rigid_corr()</span></code> in <code class="docutils literal notranslate"><span class="pre">SECTION</span> <span class="pre">4</span></code> of the <code class="docutils literal notranslate"><span class="pre">`registration.py</span></code> &lt;../code/registration.py&gt;`__ module computes the normalized cross-correlation between a fixed and a moving image transformed with rigid transformation. The three parameters of the rigid transformation (rotation angle and 2D translation vector) are passed to the function as a vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.</p>
+<p>Here is an example of how to use this function to numerically compute the derivative for a set of parameters:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">registration_utils</span> <span class="kn">import</span> <span class="n">ngradient</span>
+
+<span class="n">I</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;some_fixed_image.tif&#39;</span><span class="p">)</span>
+<span class="n">Im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;some_moving_image.tif&#39;</span><span class="p">)</span>
+
+<span class="c1"># create an instance of rigid_corr for this particular pair of images</span>
+<span class="n">rigid_corr_I_Im</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">rigid_corr</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">Im</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="o">/</span><span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="o">/</span><span class="mi">100</span><span class="p">]</span>
+
+<span class="c1"># computes the numerical gradient at x</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">ndgradient</span><span class="p">(</span><span class="n">rigid_corr_I_Im</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this code snippet, we first create an instance of the function <code class="docutils literal notranslate"><span class="pre">rigid_corr()</span></code> where the first to input parameters (the fixed and moving image) are preset. The new function <code class="docutils literal notranslate"><span class="pre">rigid_corr_I_Im()</span></code> now has only a single input parameter - the vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> that stores the rotation angle and the translation. <code class="docutils literal notranslate"><span class="pre">rigid_corr_I_Im()</span></code> can be used with <code class="docutils literal notranslate"><span class="pre">ndgradient()</span></code> to compute the gradient of the similarity function at a particular point (in this example for the point
+<code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">[pi/4,</span> <span class="pre">10/100,</span> <span class="pre">20/100]</span></code>).</p>
+<p><p><img alt="e30c1b21a1124b08a629c52ac5de6ea4" class="no-scaled-link" src="../../_images/question_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Question-4.2.1:">
+<h3><em>Question 4.2.1</em>:<a class="headerlink" href="#Question-4.2.1:" title="Permalink to this headline">¶</a></h3>
+<p>Let’s assume that after executing this code snippet, the computed value for the derivative at point <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">[pi/4,</span> <span class="pre">10,</span> <span class="pre">20]</span></code> is <code class="docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">[10,</span> <span class="pre">-5,</span> <span class="pre">30]</span></code>. Will increasing the rotation angle (the first parameter of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>) by a very small amount increase or decrease the similarity between the fixed and transformed moving image? Motivate your answer.</p>
+<p>Type your answer here</p>
+<p><p><img alt="056b50ec4a59467da7a5a759de06774f" class="no-scaled-link" src="../../_images/todo_ico.png" style="width: 42px; height: 42px;" /></p>
+</p></section>
+<section id="Exercise-4.2.1:">
+<h3><em>Exercise 4.2.1</em>:<a class="headerlink" href="#Exercise-4.2.1:" title="Permalink to this headline">¶</a></h3>
+<p>Using <code class="docutils literal notranslate"><span class="pre">rigid_corr()</span></code> as an example, implement the following two functions in <code class="docutils literal notranslate"><span class="pre">SECTION</span> <span class="pre">4</span></code> of the <code class="docutils literal notranslate"><span class="pre">`registration.py</span></code> &lt;../code/registration.py&gt;`__ module: 1. <code class="docutils literal notranslate"><span class="pre">affine_corr()</span></code> that computes the normalized cross correlation for a pair of images as a function of affine transformation, and 2. <code class="docutils literal notranslate"><span class="pre">affine_mi()</span></code> that computes the mutual information between a pair of images as a function of affine transformation.</p>
+<p>The only thing that you need to change is the length of the parameter vector, which for affine registration should contain the rotation, scaling, shearing and translation parameters, the computation of the transformation matrix and for <code class="docutils literal notranslate"><span class="pre">affine_mi()</span></code> the function call that computes the similarity measure.</p>
+<p>### 4.3 Similarity as a function of rotation</p>
+<p>Let’s put the implementations of correlation and mutual information functions to some use. You are going to compute the similarity between an image and a rotated version of that image for different rotation angles. The <code class="docutils literal notranslate"><span class="pre">registration_metrics_demo()</span></code> Python function contains code for performing this analysis. Study the function and make sure you understand what it does (you can skip the part about visualization of the results).</p>
+</section>
+<section id="Exercise-4.3.1:">
+<h3><em>Exercise 4.3.1</em>:<a class="headerlink" href="#Exercise-4.3.1:" title="Permalink to this headline">¶</a></h3>
+<p>Run the demo and describe and analyze the results.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../code&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">registration_tests</span> <span class="kn">import</span> <span class="n">registration_metrics_demo</span>
+
+<span class="c1">#registration_metrics_demo()</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Question-4.3.1:">
+<h3><em>Question 4.3.1</em>:<a class="headerlink" href="#Question-4.3.1:" title="Permalink to this headline">¶</a></h3>
+<p>Run the demo again but this time compute the similarity of the T1w image with a rotated version of the T2w image for different angles (note that the T1w and T2w images in this example are registered). Describe and analyze the results. Would the normalized cross-correlation metric be suitable to register the T1w and T2w images? Which of the two analyzed metrics would be more appropriate? Motivate your answer.</p>
+<p>Type your answer here</p>
+</section>
+</section>
+<section id="References">
+<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<p>[1] <strong>Recommended reading:</strong> Fitzpatrick, J.M., Hill, D.L. and Maurer Jr, C.R., Image registration. [2] Tonnies, Klaus D. Guide to Medical Image Analysis.</p>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Daniel Krahulec.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
