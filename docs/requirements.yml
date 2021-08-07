@@ -1,5 +1,4 @@
-channels:
-  - conda-forge
+name: 8dc00
 dependencies:
   - python==3.8.8
   - sphinx==4.0.2
