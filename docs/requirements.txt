@@ -1,4 +1,4 @@
-python==3.8.8
+python==3.8
 sphinx==4.0.2
 pandoc
 ipykernel
