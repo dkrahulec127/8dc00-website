@@ -5,13 +5,13 @@
 
 
 Welcome to the Medical Image Analysis course (8DC00) !
-===========================================================================
+======================================================
 
-| *Course website*: To be filled in
-| *Course edition*: Fall 2021 (Sep. 1 - Dec. 20) - updated regularly
-| *Repository*: https://github.com/tueimage/8dc00-mia
-| *Author*: Maureen van Eijnatten, Mitko Veta, Friso Heslinga
-| *Documentation*: Daniel Krahulec
+| *Course website*: https://github.com/tueimage/8dc00-mia
+| *Course edition*: Fall 2021 (Sep. 1 - Dec. 20) - to be updated
+| *Virtual reader*: https://8dc00-website.readthedocs.io/en/latest/
+| *Course instructors*: Maureen van Eijnatten, Mitko Veta, Friso Heslinga
+| *Documentation, notebooks*: Daniel Krahulec, Evi Huijben
 
 
 .. toctree::
@@ -55,8 +55,37 @@ We highly appreciate any feedback from students, whether it is about a spelling 
 Please use the following `link <https://docs.google.com/forms/d/e/1FAIpQLSeIhwrFSHlDSWGAgCN-RcTKm7Sn7P6bxzIyzIGge6xId1K8DQ/viewform?usp=sf_link>`_ 
 to submit feedback, or feel free to reach out to me directly per mail (mitko dot veta at tue dot nl), or raise your hands during any TA session.
 
-Notebooks
-=========
+Assessment
+----------
+
+The assessment will be performed in the following way:
+
+- Project work: 30% of the grade (both projects have equal contribution)
+- Final exam: 70% of the grade
+
+Grading of the assignments will be done per group, however, it is possible that individual students get a separate grade from the rest of the group (e.g. if they did not sufficiently participate in the work of the group). More info on the assessment criteria can be found [here](rubric.md).
+
+
+Lecturers and teaching assistants
+---------------------------------
+
+Course instructors:
+* Maureen van Eijnatten
+* Mitko Veta
+
+Guest lecturers:
+* Cornel Zachiu (UMC Utrecht)
+* Geert-Jan Rutten (Elisabeth-TweeSteden Ziekenhuis)
+
+Teaching assistants:
+* Friso Heslinga (PhD candidate)
+* Leander van Eekelen (MSc student)
+* Glenn Bouwman (MSc student)
+* Stijn Bunk (MSc student)
+* Luuk van de Hoek (MSc student)
+
+Interactive notebooks
+=====================
 
 .. toctree::
    :caption: Guide
@@ -71,6 +100,7 @@ Notebooks
    reader/1.1_Registration_geometrical-transformations
    reader/1.2_Registration_point-based-registration
    reader/1.3_Registration_intensity-based-registration
+   reader/1.4_Registration_validation
    reader/1.5_Registration_active-shape-models
    reader/1.6_Registration_project
 
@@ -89,4 +119,5 @@ Notebooks
 
    reader/2.5_CNNs_fundamental_building_blocks
    reader/2.6_CNNs_unsupervised_learning_PCA
+   reader/2.7_CAD_validation
    reader/2.8_CAD_project
