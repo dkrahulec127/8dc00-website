@@ -63,26 +63,29 @@ The assessment will be performed in the following way:
 - Project work: 30% of the grade (both projects have equal contribution)
 - Final exam: 70% of the grade
 
-Grading of the assignments will be done per group, however, it is possible that individual students get a separate grade from the rest of the group (e.g. if they did not sufficiently participate in the work of the group). More info on the assessment criteria can be found [here](rubric.md).
+Grading of the assignments will be done per group, however, it is possible that individual students get a separate grade from the rest of the group (e.g. if they did not sufficiently participate in the work of the group). More info on the assessment criteria can be found :download:`here <docs/source/data/rubric.md>`.
 
 
 Lecturers and teaching assistants
 ---------------------------------
 
-Course instructors:
-* Maureen van Eijnatten
-* Mitko Veta
+**Course instructors:**
 
-Guest lecturers:
-* Cornel Zachiu (UMC Utrecht)
-* Geert-Jan Rutten (Elisabeth-TweeSteden Ziekenhuis)
+- Maureen van Eijnatten
+- Mitko Veta
 
-Teaching assistants:
-* Friso Heslinga (PhD candidate)
-* Leander van Eekelen (MSc student)
-* Glenn Bouwman (MSc student)
-* Stijn Bunk (MSc student)
-* Luuk van de Hoek (MSc student)
+**Guest lecturers:**
+
+- Cornel Zachiu (UMC Utrecht)
+- Geert-Jan Rutten (Elisabeth-TweeSteden Ziekenhuis)
+
+**Teaching assistants:**
+
+- Friso Heslinga (PhD candidate)
+- Leander van Eekelen (MSc student)
+- Glenn Bouwman (MSc student)
+- Stijn Bunk (MSc student)
+- Luuk van de Hoek (MSc student)
 
 Interactive notebooks
 =====================
