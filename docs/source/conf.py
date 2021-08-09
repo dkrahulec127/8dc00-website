@@ -14,7 +14,7 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-import os
+import subprocess
 import sphinx_rtd_theme
 
 
@@ -75,4 +75,4 @@ nbsphinx_execute_arguments = [
 ]
 # pygments_style = 'sphinx'
 
-os.system('../../publish.sh')
+subprocess.call(['../../publish.sh'])
