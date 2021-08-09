@@ -13,12 +13,6 @@ Welcome to the Medical Image Analysis course (8DC00) !
 | *Course instructors*: Maureen van Eijnatten, Mitko Veta, Friso Heslinga
 | *Documentation, notebooks*: Daniel Krahulec, Evi Huijben
 
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-
 This course is a sequel to the second year introductory imaging course. In that course the basic principles of image analysis were covered. 
 In 8DC00 we will concentrate on the more advanced image analysis methods and on how they can be used to tackle clinical problems. 
 Topics covered include image registration and computer-aided diagnosis (CAD).
@@ -63,7 +57,8 @@ The assessment will be performed in the following way:
 - Project work: 30% of the grade (both projects have equal contribution)
 - Final exam: 70% of the grade
 
-Grading of the assignments will be done per group, however, it is possible that individual students get a separate grade from the rest of the group (e.g. if they did not sufficiently participate in the work of the group). More info on the assessment criteria can be found :download:`here <docs/source/data/rubric.md>`.
+Grading of the assignments will be done per group, however, it is possible that individual students get a separate grade from the rest of the group (e.g. if they did not sufficiently participate in the work of the group). 
+More info on the assessment criteria can be found `in this table <https://github.com/dkrahulec127/8dc00-website/blob/main/docs/source/data/rubric.md>`_.
 
 
 Lecturers and teaching assistants
@@ -97,7 +92,7 @@ Interactive notebooks
    reader/0.1_Python_programming_skills
 
 .. toctree::
-   :caption: Registration
+   :caption: Image registration
    :maxdepth: 1
 
    reader/1.1_Registration_geometrical-transformations
@@ -115,11 +110,6 @@ Interactive notebooks
    reader/2.2_CAD_kNN_decision_trees
    reader/2.3_CAD_generalization_overfitting
    reader/2.4_CAD_logistic_regression
-
-.. toctree::
-   :caption: Convolutional neural networks
-   :maxdepth: 1
-
    reader/2.5_CNNs_fundamental_building_blocks
    reader/2.6_CNNs_unsupervised_learning_PCA
    reader/2.7_CAD_validation
