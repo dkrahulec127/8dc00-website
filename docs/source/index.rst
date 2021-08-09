@@ -110,7 +110,7 @@ Interactive notebooks
    reader/2.2_CAD_kNN_decision_trees
    reader/2.3_CAD_generalization_overfitting
    reader/2.4_CAD_logistic_regression
-   reader/public/2.5_CNNs_fundamental_building_blocks
+   reader/2.5_CNNs_fundamental_building_blocks
    reader/2.6_CNNs_unsupervised_learning_PCA
    reader/2.7_CAD_validation
    reader/2.8_CAD_project

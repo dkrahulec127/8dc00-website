@@ -75,4 +75,4 @@ nbsphinx_execute_arguments = [
 ]
 # pygments_style = 'sphinx'
 
-subprocess.call(['sudo ../../publish.sh'])
+#subprocess.call(['sudo ../../publish.sh'])
