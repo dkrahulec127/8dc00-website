@@ -14,6 +14,7 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+import os
 import sphinx_rtd_theme
 
 
@@ -73,3 +74,5 @@ nbsphinx_execute_arguments = [
     "--InlineBackend.rc={'figure.dpi': 96}",
 ]
 # pygments_style = 'sphinx'
+
+os.system('../../publish.sh')
