@@ -1,0 +1,11 @@
+ipython
+sphinx-autobuild
+sphinx==4.0.2
+pandoc
+matplotlib
+ipykernel
+nbsphinx
+sphinx_rtd_theme
+sphinx-gallery
+numpy
+scipy
