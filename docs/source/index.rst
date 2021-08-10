@@ -86,10 +86,10 @@ Interactive notebooks
 =====================
 
 .. toctree::
-   :caption: Guide
+   :caption: Software guide
    :maxdepth: 2
 
-   reader/0.1_Python_programming_skills
+   reader/0.1_Help_for_Jupyter_and_Python
 
 .. toctree::
    :caption: Image registration
