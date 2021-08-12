@@ -67,7 +67,7 @@ master_doc = 'index'
 highlight_language = 'python3'
 
 nbsphinx_execute = 'never'
-nbsphinx_allow_errors = True
+nbsphinx_allow_errors = False
 
 nbsphinx_execute_arguments = [
     "--InlineBackend.figure_formats={'svg', 'pdf'}",
