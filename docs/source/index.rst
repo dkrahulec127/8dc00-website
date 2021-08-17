@@ -100,7 +100,8 @@ Interactive notebooks
    reader/1.3_Registration_intensity-based-registration
    reader/1.4_Registration_image-similarity-metrics
    reader/1.5_Registration_active-shape-models
-   reader/1.6_Registration_project
+   reader/1.6_CAD_validation_metrics
+   reader/Registration_project
 
 .. toctree::
    :caption: Computer-aided diagnosis
@@ -112,5 +113,4 @@ Interactive notebooks
    reader/2.4_CAD_logistic_regression
    reader/2.5_CNNs_fundamental_building_blocks
    reader/2.6_CNNs_unsupervised_learning_PCA
-   reader/2.7_CAD_validation
-   reader/2.8_CAD_project
+   reader/CAD_project
