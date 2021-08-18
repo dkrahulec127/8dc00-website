@@ -97,8 +97,8 @@ Interactive notebooks
 
    reader/1.1_Registration_geometrical-transformations
    reader/1.2_Registration_point-based-registration
-   reader/1.3_Registration_intensity-based-registration
-   reader/1.4_Registration_image-similarity-metrics
+   reader/1.3_Registration_image-similarity-metrics
+   reader/1.4_Registration_intensity-based-registration
    reader/1.5_Registration_active-shape-models
    reader/1.6_CAD_validation_metrics
    reader/Registration_project
