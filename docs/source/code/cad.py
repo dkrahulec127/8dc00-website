@@ -48,7 +48,6 @@ def lr_nll(X, Y, Theta):
 
     return L
 
-
 def lr_agrad(X, Y, Theta):
     # Gradient of the negative log-likelihood for a logistic regression
     # classifier.
