@@ -131,7 +131,7 @@ def image_transform(I, Th,  output_shape=None):
     #!studentend
     #------------------------------------------------------------------#
 
-    It = ndimage.map_coordinates(I, [Xt[1,:], Xt[0,:]], order=1, mode='constant').reshape(I.shape)
+    It = ndimage.map_coordinates(I, [Xt[1,:], Xt[0,:]], order=1, mode='constant').reshape(output_shape)
 
     return It, Xt
 
