@@ -22,28 +22,31 @@ Interactive notebooks
    :caption: Software guide
    :maxdepth: 2
 
-   reader/0.1_Help_for_Jupyter_and_Python
+   reader/0.1_Software_guide
 
 .. toctree::
    :caption: Image registration
    :maxdepth: 1
 
-   reader/1.1_Registration_geometrical-transformations
-   reader/1.2_Registration_point-based-registration
-   reader/1.3_Registration_image-similarity-metrics
-   reader/1.4_Registration_intensity-based-registration
-   reader/1.5_Registration_active-shape-models
-   reader/1.6_CAD_validation_metrics
-   reader/Registration_project
+   reader/1.1_Geometrical_transformations
+   reader/1.2_Point-based_registration
+   reader/1.3_Image-similarity-metrics
+   reader/1.4_Intensity-based-registration
+   reader/1.5_Validation_in_medical_image_analysis
+   reader/1.6_Registration_project
 
 .. toctree::
-   :caption: Computer-aided diagnosis
+   :caption: Computer-aided diagnosis & machine learning
    :maxdepth: 1
 
-   reader/2.1_CAD_linear_regression
-   reader/2.2_CAD_kNN_decision_trees
-   reader/2.3_CAD_generalization_overfitting
-   reader/2.4_CAD_logistic_regression
-   reader/2.5_CNNs_fundamental_building_blocks
-   reader/2.6_CNNs_unsupervised_learning_PCA
-   reader/CAD_project
+   reader/2.1_Linear_regression
+   reader/2.2_Logistic_regression
+   reader/2.3_Building_blocks_of_neural_networks
+   reader/2.4_Unsupervised_learning_PCA
+   reader/2.5_CAD_project
+
+.. toctree::
+   :caption: Optional
+   :maxdepth: 1
+   
+   reader/OPTIONAL_active_shape_models

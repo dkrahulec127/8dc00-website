@@ -81,8 +81,8 @@ def linear_regression():
     #---------------------------------------------------------------------#
     # TODO: Compute the error for the trained model.
     #!studentstart
-    E_validation = np.mean((util.addones(validation_data[:,0]).dot(Theta) - validation_data[:,1])**2)
-    E_test = np.mean((util.addones(test_data[:,0]).dot(Theta) - test_data[:,1])**2)
+    E_validation = np.mean((util.addones(validation_data[:,0]).dot(Theta) - validation_data[:,1].reshape(-1, 1))**2)
+    E_test = np.mean((util.addones(test_data[:,0]).dot(Theta) - test_data[:,1].reshape(-1, 1))**2)
     #!studentend
     #---------------------------------------------------------------------#
 
@@ -260,7 +260,7 @@ def logistic_regression():
         clear_output(wait = True)
 
         
-# SECTION 3: Fundamental building blocks of neural networks
+# SECTION 3: Building blocks of neural networks
  
 def model_training():
 
@@ -317,22 +317,23 @@ class Training:
         mat = scipy.io.loadmat(fn)
 
         training_images = mat["training_images"]     # (24, 24, 3, 14607)
-        self.training_y = mat["training_y"]               # (14607, 1)
+        self.training_y = mat["training_y"]          # (14607, 1)
 
         validation_images = mat["validation_images"] # (24, 24, 3, 7303)
-        self.validation_y = mat["validation_y"]           # (7303, 1)
+        self.validation_y = mat["validation_y"]      # (7303, 1)
 
         test_images = mat["test_images"]             # (24, 24, 3, 20730)
-        self.test_y = mat["test_y"]                       # (20730, 1)
+        self.test_y = mat["test_y"]                  # (20730, 1)
 
         ## dataset preparation
         # Reshape matrices and normalize pixel values
-        self.training_x = util.reshape_and_normalize(training_images)      # (14607, 1728)
-        self.validation_x = util.reshape_and_normalize(validation_images)  # (7303, 1728)
-        self.test_x = util.reshape_and_normalize(test_images)              # (20730, 1728)
+        self.training_x, self.validation_x, self.test_x = util.reshape_and_normalize(training_images, 
+                                                                                     validation_images, 
+                                                                                     test_images)      
 
         # Visualize several training images classified as large or small
-        util.visualize_big_small_images(self.training_x, self.training_y, training_images.shape)
+        #util.visualize_big_small_images(self.training_x, self.training_y, training_images.shape)
+        util.visualize_big_small_images(training_images, self.training_y)
 
     def define_shapes(self):
 
@@ -380,8 +381,8 @@ class Training:
             for batch_i in range(self.training_x.shape[0]//self.batchsize):
 
                 ## sample images from this batch
-                batch_x = self.training_x[self.batchsize*batch_i : self.batchsize*(batch_i+1)]
-                batch_y = self.training_y[self.batchsize*batch_i : self.batchsize*(batch_i+1)]
+                batch_x = training_x[self.batchsize*batch_i : self.batchsize*(batch_i+1)]
+                batch_y = training_y[self.batchsize*batch_i : self.batchsize*(batch_i+1)]
 
                 ## train on one batch
                 # Forward pass
@@ -410,12 +411,13 @@ class Training:
             ax[0].legend(['Training loss', 'Validation loss'])
             ax[0].set_title(f'Loss curves after {epoch+1}/{n_epochs} epochs')
             ax[0].set_ylabel('Loss'); ax[0].set_xlabel('epochs')
+            ax[0].set_xlim([0, 100]); ax[0].set_ylim([0, max(training_loss)])
             ax[1].plot(Acc)
             ax[1].set_title(f'Validation accuracy after {epoch+1}/{n_epochs} epochs')
             ax[1].set_ylabel('Accuracy'); ax[1].set_xlabel('epochs')
+            ax[1].set_xlim([0, 100]); ax[1].set_ylim([min(Acc),0.8])
             plt.show()
-
-            print('> Training finished')
+        print('> Training finished')
             
     def pass_on_test_set(self):
         
@@ -465,3 +467,109 @@ class Training:
         #---------------------------------------------------------------------#
         return {'w1': w1,
                 'w2': w2}
+
+# Section 4: Unsupervised learning, PCA
+
+def covariance_matrix_test():
+    N=100
+    mu1=[0,0]
+    mu2=[0,0]
+    sigma1=[[3,1],[1,1]]
+    sigma2=[[3,1],[1,1]]
+    X, Y = util.generate_gaussian_data(N, mu1, mu2, sigma1, sigma2)
+
+    #------------------------------------------------------------------#
+    # TODO: Calculate the mean and covariance matrix of the data,
+    #  and compare them to the parameters you used as input.
+    #!studentstart
+    mn = np.mean(X, axis=0)
+    print('Mean:\n{}'.format(mn))
+    sigma = np.cov(X, rowvar=False)
+    print('Covariance matrix:\n{}'.format(sigma))
+    return X, Y, sigma
+    #!studentend
+    #------------------------------------------------------------------#
+
+def eigen_vecval_test(sigma):
+    #------------------------------------------------------------------#
+    # TODO: Compute the eigenvectors and eigenvalues of the covariance matrix,
+    #  what two properties can you name about the eigenvectors? How can you verify these properties?
+    #  which eigenvalue is the largest and which is the smallest?
+    #!studentstart
+    w, v = np.linalg.eig(sigma)
+    print('Eigenvalues w:\n{}'.format(w))
+    print('Eigenvectors v:\n{}'.format(v))
+
+    # Find ordering of eigenvalues
+    ix = np.argsort(w)[::-1]
+    # Reorder eigenvalues
+    w = w[ix]
+    # Reorder eigenvectors
+    v = v[:, ix]
+    print('Order v:\n{}'.format(ix))
+    print('Reordered eigenvalues v:\n{}'.format(w))
+    print('Reordered eigenvectors v:\n{}'.format(v))
+    print('Checking results:')
+    print('Dot procuct of first eigenvector with itself:\n{}'.format(v[:,0].dot(v[:,0])))
+    print('Dot procuct of the two eigenvectors:\n{}'.format(v[:,0].dot(v[:,1])))
+    return v, w
+    #!studentend
+    #------------------------------------------------------------------#
+
+def rotate_using_eigenvectors_test(X, Y, v):
+    #------------------------------------------------------------------#
+    # TODO: Rotate X using the eigenvectors
+    #!studentstart
+    X_rotated = v.T.dot(X.T)
+    X_rotated = X_rotated.T
+    fig = plt.figure(figsize=(15,6))
+    ax1 = fig.add_subplot(121)
+    ax2 = fig.add_subplot(122)
+    util.scatter_data(X,Y,ax=ax1)
+    util.scatter_data(X_rotated,Y,ax=ax2)
+    return X_rotated
+    #!studentend
+    #------------------------------------------------------------------#
+
+
+def test_mypca():
+    #Generates some toy data in 2D, computes PCA, and plots both datasets
+    N=100
+    mu1=[0,0]
+    mu2=[2,0]
+    sigma1=[[2,1],[1,1]]
+    sigma2=[[2,1],[1,1]]
+
+    XG, YG = util.generate_gaussian_data(N, mu1, mu2, sigma1, sigma2)
+
+    fig = plt.figure(figsize=(15,6))
+
+    ax1 = fig.add_subplot(121)
+    util.scatter_data(XG,YG,ax=ax1)
+    sigma = np.cov(XG, rowvar=False)
+    w, v = np.linalg.eig(sigma)
+    ax1.plot([0, v[0,0]], [0, v[1,0]], c='g', linewidth=3, label='Eigenvector1')
+    ax1.plot([0, v[0,1]], [0, v[1,1]], c='k', linewidth=3, label='Eigenvector2')
+    ax1.set_title('Original data')
+    ax_settings(ax1)
+
+    ax2 = fig.add_subplot(122)
+    X_pca, v, w, fraction_variance = cad.mypca(XG)
+    util.scatter_data(X_pca,YG,ax=ax2)
+    sigma2 = np.cov(X_pca, rowvar=False)
+    w2, v2 = np.linalg.eig(sigma2)
+    ax2.plot([0, v2[0,0]], [0, v2[1,0]], c='g', linewidth=3, label='Eigenvector1')
+    ax2.plot([0, v2[0,1]], [0, v2[1,1]], c='k', linewidth=3, label='Eigenvector2')
+    ax2.set_title('My PCA')
+    ax_settings(ax2)
+
+    handles, labels = ax2.get_legend_handles_labels()
+    plt.figlegend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, -0.05), bbox_transform=plt.gcf().transFigure, ncol = 4)
+
+    print(fraction_variance)
+
+def ax_settings(ax):
+    ax.set_xlim(-7,7)
+    ax.set_ylim(-7,7)
+    ax.set_aspect('equal', adjustable='box')
+    ax.grid()
