@@ -36,7 +36,7 @@ Interactive notebooks
    reader/1.6_Registration_project
 
 .. toctree::
-   :caption: Computer-aided diagnosis & machine learning
+   :caption: Computer-aided diagnosis
    :maxdepth: 1
 
    reader/2.1_Linear_regression
