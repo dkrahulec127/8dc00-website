@@ -204,7 +204,7 @@ def ls_affine_test():
 
     Te = reg.ls_affine(Xh, Xm)
 
-    Xmt = Te.dot(Xm);
+    Xmt = Te.dot(Xm)
 
     fig = plt.figure(figsize=(12,5))
 
@@ -277,7 +277,7 @@ def mutual_information_test():
     N2 = np.random.randint(255, size=(512, 512))
 
     p3 = reg.joint_histogram(N1, N2)
-    MI3 = reg.mutual_information(p3);
+    MI3 = reg.mutual_information(p3)
     assert MI3 < 10e-3, "Mutual information function is incorrectly implemented (MI of random noise test)"
     #!studentend
     #------------------------------------------------------------------#

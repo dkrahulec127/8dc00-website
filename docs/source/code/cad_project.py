@@ -56,7 +56,7 @@ def nuclei_measurement():
     testXones = util.addones(test_x)
     Theta, E = reg.ls_solve(trainXones, training_y)
     predicted_y = testXones.dot(Theta)
-    E = np.mean((predicted_y - test_y)**2);
+    E = np.mean((predicted_y - test_y)**2)
     #!studentend
     #---------------------------------------------------------------------#
 
