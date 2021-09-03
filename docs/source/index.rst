@@ -9,7 +9,7 @@ Welcome to the Medical Image Analysis course (8DC00) !
 
 | *Course website*: https://github.com/tueimage/8dc00-mia
 | *Course edition*: Fall 2021
-| *Virtual reader*: https://8dc00-website.readthedocs.io/en/latest/
+| *Virtual reader*: https://8dc00-mia-docs.readthedocs.io/en/latest/
 
 This course is a sequel to the second year introductory imaging course. In that course the basic principles of image analysis were covered. 
 In 8DC00 we will concentrate on the more advanced image analysis methods and on how they can be used to tackle clinical problems. 
@@ -30,8 +30,8 @@ Interactive notebooks
 
    reader/1.1_Geometrical_transformations
    reader/1.2_Point-based_registration
-   reader/1.3_Image-similarity-metrics
-   reader/1.4_Intensity-based-registration
+   reader/1.3_Image_similarity_metrics
+   reader/1.4_Intensity-based_registration
    reader/1.5_Validation_in_medical_image_analysis
    reader/1.6_Registration_project
 
