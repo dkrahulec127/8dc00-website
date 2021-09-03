@@ -1,5 +1,5 @@
 """
-Notebook 0.2_Active-shape-models-optional
+Code for notebook OPTIONAL_active-shape-models
 """
 
 import numpy as np
